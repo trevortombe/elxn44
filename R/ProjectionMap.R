@@ -14,6 +14,11 @@ date<-read.delim("https://338canada.com/338canadafederalproj.txt",
 date<-as.character(date[1,1])
 date<-as.Date(substr(date,32,41),"%Y-%m-%d")
 
+# Store the projection as a CSV for later use
+results<-projections %>%
+  mutate(date=date)
+write.csv(results,file=paste0("Files/results_",date,".csv"),row.names=F)
+
 # Form the base map
 source("R/map_core.R")
 
