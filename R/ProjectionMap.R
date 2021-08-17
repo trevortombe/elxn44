@@ -8,6 +8,12 @@ ca_map <- fortify(ca, region="FEDUID")
 projections<-read.delim("https://338canada.com/338canadafederalproj.txt",
                         skip=5,header=T,sep=",")
 
+# Date of Projection
+date<-read.delim("https://338canada.com/338canadafederalproj.txt",
+                        header=F,sep=",")
+date<-as.character(date[1,1])
+date<-as.Date(substr(date,32,41),"%Y-%m-%d")
+
 # Form the base map
 source("R/map_core.R")
 
@@ -53,10 +59,10 @@ ggplot(plotdata,aes(x=long,y=lat,group=group,fill=party))+
   maplabels+
   labs(x="",y="",
        title=paste0("#elxn44 Projection from 338Canada.com (",
-                    gsub(" 0"," ",format(Sys.Date(),"%B %d, %Y")),")"),
+                    gsub(" 0"," ",format(date,"%B %d, %Y")),")"),
        subtitle="Seat projections from P.J. Fourier @338Canada. Likely/Leaning/Safe are grouped by party. Total seat counts in parentheses.",
        caption="Graph by @trevortombe")
-filename<-paste0("Plots/proj_",Sys.Date(),".png")
+filename<-paste0("Plots/proj_",date,".png")
 ggsave(filename,width=7,height=8)
 ggsave("Plots/proj_latest.png",width=7,height=8)
 
@@ -73,9 +79,9 @@ ggplot(plotdata,aes(x=long,y=lat,group=group,fill=change))+
   maplabels+
   labs(x="",y="",
        title=paste0("#elxn44 Battlegrounds (",
-                    gsub(" 0"," ",format(Sys.Date(),"%B %d, %Y")),")"),
+                    gsub(" 0"," ",format(date,"%B %d, %Y")),")"),
        subtitle="Based on Projections from P.J. Fourier @338Canada. Displays toss up and projected party switches.",
        caption="Graph by @trevortombe")
-filename<-paste0("Plots/battle_",Sys.Date(),".png")
+filename<-paste0("Plots/battle_",date,".png")
 ggsave(filename,width=7,height=8)
 ggsave("Plots/battle_latest.png",width=7,height=8)
